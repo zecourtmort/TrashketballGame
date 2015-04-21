@@ -54,7 +54,7 @@ public class TrashketTests {
 	@Test
 	public void pointsTest(){
 		int testDistance = game.getLevels().get(0).getTrashDistance();
-		Physics.calcPoints(testDistance, 51);
+		Physics.calcPoints(game.getLevels().get(0), 51);
 		assertEquals(Physics.getPoints().size(), testDistance+1);
 		assertEquals(Physics.getPoints().get(0).getX(),0,0);
 		assertEquals(Physics.getPoints().get(Physics.getPoints().size()-1).getX(),testDistance,0);
