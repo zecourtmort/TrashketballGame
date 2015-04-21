@@ -47,9 +47,9 @@ public class TrashketTests {
 	}
 	@Test
 	public void targetTest(){
-		assertEquals(Physics.calcTarget(game.getLevels().get(0).getTrashHeight(), game.getLevels().get(0).getTrashDistance()), 45);
-		assertEquals(Physics.calcTarget(game.getLevels().get(1).getTrashHeight(), game.getLevels().get(1).getTrashDistance()), 60, 3);
-		assertEquals(Physics.calcTarget(game.getLevels().get(2).getTrashHeight(), game.getLevels().get(2).getTrashDistance()), 70, 3);
+		assertEquals(Physics.calcTarget(game.getLevels().get(0)), 45);
+		assertEquals(Physics.calcTarget(game.getLevels().get(1)), 60, 3);
+		assertEquals(Physics.calcTarget(game.getLevels().get(2)), 70, 3);
 	}
 	@Test
 	public void pointsTest(){
@@ -61,10 +61,10 @@ public class TrashketTests {
 	}
 	@Test
 	public void solutionTest(){
-		game.setCurrentSolution(45);
+		game.setCurrentLevel(game.getLevels().get(0));
 		assertTrue(game.checkSolution(45));
-		game.setCurrentSolution(60);
-		assertTrue(game.checkSolution(60));
+		game.setCurrentLevel(game.getLevels().get(1));
+		assertTrue(game.checkSolution(57));
 	}
 
 }

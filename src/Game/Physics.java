@@ -11,14 +11,16 @@ public class Physics {
 	private static double VELOCITY = 13;
 	private static ArrayList<Point> points;
 	private int angle;
-	public static int calcTarget(double height, double distance){
+	public static int calcTarget(Level level){
+		double distance = level.getTrashDistance();
+		double height = level.getTrashHeight();
 		double v2 = VELOCITY*VELOCITY;
 		double sqrtValue = (v2*v2)-(GRAVITY*((GRAVITY*distance*distance)+(2*height*v2)));
 		double arctanValue = (v2-Math.sqrt(sqrtValue))/(GRAVITY*distance);
 		//arctanValue = Math.toDegrees(arctanValue);
 		double angle = Math.atan(arctanValue);
-		System.out.println(angle);
 		angle = Math.toDegrees(angle);
+		System.out.println(angle);
 		return (int)angle;
 	}
 	public static void calcPoints(int distance, int angle){

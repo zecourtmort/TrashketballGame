@@ -26,6 +26,7 @@ public class TrashketballGame {
 		}
 	}
 	public boolean checkSolution(int angle){
+		this.currentSolution = Physics.calcTarget(currentLevel);
 		return (currentSolution == angle);
 	}
 	public ArrayList<Level> getLevels(){
@@ -33,6 +34,9 @@ public class TrashketballGame {
 	}
 	public void setCurrentSolution(int angle){
 		this.currentSolution = angle;
+	}
+	public void setCurrentLevel(Level level){
+		this.currentLevel = level;
 	}
 	public static void main(String[] args){
 		int i = 0;
