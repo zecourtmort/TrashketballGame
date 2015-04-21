@@ -7,10 +7,11 @@ import java.util.Scanner;
 
 public class TrashketballGame {
 	private static ArrayList<Level> levels = new ArrayList<Level>();
-	private int currentSolution;
-	private Level currentLevel;
+	private static int currentSolution;
+	private static Level currentLevel;
+	private static int enteredAngle;
 	private String configFileName;
-	private int lifeCounter = 3;
+	private static int lifeCounter = 3;
 	public TrashketballGame(String configFileName) throws FileNotFoundException{
 		this.configFileName = configFileName;
 		loadConfigFiles();
@@ -25,8 +26,8 @@ public class TrashketballGame {
 			levels.add(temp);
 		}
 	}
-	public boolean checkSolution(int angle){
-		this.currentSolution = Physics.calcTarget(currentLevel);
+	public static boolean checkSolution(int angle){
+		currentSolution = Physics.calcTarget(currentLevel);
 		return (currentSolution == angle);
 	}
 	public ArrayList<Level> getLevels(){
@@ -35,13 +36,19 @@ public class TrashketballGame {
 	public void setCurrentSolution(int angle){
 		this.currentSolution = angle;
 	}
-	public void setCurrentLevel(Level level){
-		this.currentLevel = level;
+	public static void setCurrentLevel(Level level){
+		currentLevel = level;
 	}
 	public static void main(String[] args){
 		int i = 0;
 		while ( i < levels.size()){
-			
+			setCurrentLevel(levels.get(i));
+			if (checkSolution(enteredAngle)){
+				i++;
+			}
+			else{
+				lifeCounter--;
+			}
 		}
 	}
 }
