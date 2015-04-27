@@ -1,0 +1,30 @@
+Q What is a right angle?
+A 40 degrees
+B 60 degrees
+C 90 degrees
+D 0 degrees
+C
+Q What is an isoscoles triangle?
+A A triangle with all equal angles
+B A triangle with two equal angles
+C A triangle with no equal angles
+D A triangle shaped monster
+B
+Q What kind of angle is 120 degrees?
+A Acute
+B Obtuse
+C Obcute
+d Actuse
+B
+Q Equilateral triangles have angles that are all:
+A 30 degrees
+B 45 degrees
+C 60 degrees
+D 90 degrees
+C
+Q If two lines are parallel, it means they:
+A Don't ever intersect.
+B Intersect at a 90 degree angle.
+C Intersect at a 45 degree angle.
+D Intersect multiple times.
+A
