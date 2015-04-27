@@ -22,14 +22,17 @@ import Game.Quiz;
 
 public class TrashketTests {
 	private static TrashketballGame game;
+	
 	@BeforeClass
 	public static void setups() throws FileNotFoundException{
 		game = new TrashketballGame("LevelConfig.txt", "Quiz.txt");
 	}
+	
 	@Test (expected = FileNotFoundException.class)
 	public void badConfigTest() throws FileNotFoundException{
 		TrashketballGame game = new TrashketballGame("configFileBad.txt","badQuiz.txt");
 	}
+	
 	@Test
 	public void configTest() throws FileNotFoundException{
 		int testHeight = game.getLevels().get(0).getTrashHeight();
@@ -45,12 +48,14 @@ public class TrashketTests {
 		assertEquals(testHeight, 6);
 		assertEquals(testDistance, 3);
 	}
+	
 	@Test
 	public void targetTest(){
 		assertEquals(Physics.calcTarget(game.getLevels().get(0)), 45);
 		assertEquals(Physics.calcTarget(game.getLevels().get(2)), 60, 3);
 		assertEquals(Physics.calcTarget(game.getLevels().get(3)), 70, 3);
 	}
+	
 	@Test
 	public void pointsTest(){
 		int testDistance = game.getLevels().get(0).getTrashDistance();
@@ -59,6 +64,7 @@ public class TrashketTests {
 		assertEquals(Physics.getPoints().get(0).getX(),0,0);
 		assertEquals(Physics.getPoints().get(Physics.getPoints().size()-1).getX(),testDistance,0);
 	}
+	
 	@Test
 	public void solutionTest(){
 		game.setCurrentLevel(game.getLevels().get(0));

@@ -12,6 +12,10 @@ public class Level {
 		this.trashDistance = trashDistance;
 	}
 	
+	public Level() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void drawBoard(){
 		
 	}

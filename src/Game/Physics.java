@@ -11,6 +11,7 @@ public class Physics {
 	private static double VELOCITY = 13;
 	private static ArrayList<Point> points;
 	private static int angle;
+	
 	public static int calcTarget(Level level){
 		double distance = level.getTrashDistance();
 		double height = level.getTrashHeight();
@@ -24,6 +25,7 @@ public class Physics {
 		//System.out.println(angle);
 		return (int)angle;
 	}
+	
 	public static void calcPoints(Level level, int angle){
 		double distance = level.getTrashDistance();
 		double height = level.getTrashHeight();
@@ -34,6 +36,7 @@ public class Physics {
 		points.add(temp);
 		}
 	}
+	
 	public void drawAngle(Graphics g, int angle){
 		
 	}
