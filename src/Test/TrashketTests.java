@@ -24,11 +24,11 @@ public class TrashketTests {
 	private static TrashketballGame game;
 	@BeforeClass
 	public static void setups() throws FileNotFoundException{
-		game = new TrashketballGame("LevelConfig.txt");
+		game = new TrashketballGame("LevelConfig.txt", "Quiz.txt");
 	}
 	@Test (expected = FileNotFoundException.class)
 	public void badConfigTest() throws FileNotFoundException{
-		TrashketballGame game = new TrashketballGame("configFileBad.txt");
+		TrashketballGame game = new TrashketballGame("configFileBad.txt","badQuiz.txt");
 	}
 	@Test
 	public void configTest() throws FileNotFoundException{
@@ -36,20 +36,20 @@ public class TrashketTests {
 		int testDistance = game.getLevels().get(0).getTrashDistance();
 		assertEquals(testHeight, 2);
 		assertEquals(testDistance, 15);
-		testHeight = game.getLevels().get(1).getTrashHeight();
-		testDistance = game.getLevels().get(1).getTrashDistance();
-		assertEquals(testHeight, 6);
-		assertEquals(testDistance, 9);
 		testHeight = game.getLevels().get(2).getTrashHeight();
 		testDistance = game.getLevels().get(2).getTrashDistance();
+		assertEquals(testHeight, 6);
+		assertEquals(testDistance, 9);
+		testHeight = game.getLevels().get(3).getTrashHeight();
+		testDistance = game.getLevels().get(3).getTrashDistance();
 		assertEquals(testHeight, 6);
 		assertEquals(testDistance, 3);
 	}
 	@Test
 	public void targetTest(){
 		assertEquals(Physics.calcTarget(game.getLevels().get(0)), 45);
-		assertEquals(Physics.calcTarget(game.getLevels().get(1)), 60, 3);
-		assertEquals(Physics.calcTarget(game.getLevels().get(2)), 70, 3);
+		assertEquals(Physics.calcTarget(game.getLevels().get(2)), 60, 3);
+		assertEquals(Physics.calcTarget(game.getLevels().get(3)), 70, 3);
 	}
 	@Test
 	public void pointsTest(){
@@ -63,7 +63,7 @@ public class TrashketTests {
 	public void solutionTest(){
 		game.setCurrentLevel(game.getLevels().get(0));
 		assertTrue(game.checkSolution(45));
-		game.setCurrentLevel(game.getLevels().get(1));
+		game.setCurrentLevel(game.getLevels().get(2));
 		assertTrue(game.checkSolution(57));
 	}
 

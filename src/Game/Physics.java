@@ -21,7 +21,7 @@ public class Physics {
 		//arctanValue = Math.toDegrees(arctanValue);
 		double angle = Math.atan(arctanValue);
 		angle = Math.toDegrees(angle);
-		System.out.println(angle);
+		//System.out.println(angle);
 		return (int)angle;
 	}
 	public static void calcPoints(Level level, int angle){
