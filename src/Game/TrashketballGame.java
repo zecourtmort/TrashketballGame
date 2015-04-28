@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,11 +36,12 @@ public class TrashketballGame extends JFrame{
 	private String quizFile;
 	private int lifeCounter = 3;
 	private JLabel life;
+	private JLabel levelCount;
 	private int currentLevelIndex;
 	private BackgroundPanel background;
 	private int pointIndex = 0;
 	private Timer timer;
-	private boolean animationFinished = false;
+	private static final int ANGLE_TOLERANCE = 3;
 	
 	public TrashketballGame(String configFileName, String quizFile) throws FileNotFoundException{
 		this.configFileName = configFileName;
@@ -73,9 +75,10 @@ public class TrashketballGame extends JFrame{
 			quizzes.add(ques);
 		}
 	}
+	
 	public boolean checkSolution(int angle){
 		setCurrentSolution(Physics.calcTarget(currentLevel));
-		return (currentSolution == angle);
+		return (currentSolution - 3 <= angle) && (currentSolution + 3 >= angle);
 	}
 	public ArrayList<Level> getLevels(){
 		return levels;
@@ -105,7 +108,6 @@ public class TrashketballGame extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				repaint();
 				
-				animationFinished = false;
 
 				setEnabled(false);
 				if (pointIndex < points.size()) {
@@ -117,26 +119,34 @@ public class TrashketballGame extends JFrame{
 				pointIndex++;
 				
 				if (pointIndex == points.size()) {
-					System.out.println(pointIndex);
+					//System.out.println(pointIndex);
 					timer.stop();
 					
 					setEnabled(true);
-					animationFinished = true;
 					
 					//TO-DO use the points
 					boolean success = checkSolution(enteredAngle);
 					System.out.println(currentSolution);
 					if (success && lifeCounter > 0) {
 						
-						System.out.println("Here");
+						//System.out.println("Here");
 						
-						if (currentLevelIndex != 0 && currentLevelIndex % 2 == 0) {
-							Quiz q = quizzes.get(currentLevelIndex - 2);
+						if (currentLevelIndex != 0 && !(currentLevelIndex % 2 == 0)) {
+							if(currentLevelIndex!=9){
+							Quiz q = quizzes.get(currentLevelIndex/2);
 							q.drawQuiz(game);
-							
+							game.setEnabled(true);
+							}
 						}
 						
 						life.setText(Integer.toString(lifeCounter));	
+						if (currentLevelIndex == 9){
+							JFrame frame = new JFrame();
+							JOptionPane.showMessageDialog(frame, "Congratulations! You have completed the game! \n"
+									+ "Class is over and you can go home and play more video games!");
+							game.setVisible(false);
+							System.exit(0);
+						}
 						nextLevel();
 						background.setPoint(new Point(0, 0));
 						pointIndex = 0;
@@ -146,7 +156,15 @@ public class TrashketballGame extends JFrame{
 						background.setPoint(new Point(0, 0));
 						pointIndex = 0;
 					}
-					
+					else{
+						background.setVisible(false);
+						game.add(new LoseScreen());
+						game.setEnabled(true);
+						JFrame frame = new JFrame();
+						JOptionPane.showMessageDialog(frame, "You should pay more attention in class!");
+						game.setVisible(false);
+						System.exit(0);
+					}
 				}
 			}
 			
@@ -167,7 +185,7 @@ public class TrashketballGame extends JFrame{
 	private void nextLevel() {
 		currentLevelIndex++;
 		setCurrentLevel(levels.get(currentLevelIndex));
-		
+		levelCount.setText(Integer.toString(currentLevelIndex+1));
 	}
 	
 	public int getLifeCounter() {
@@ -185,6 +203,8 @@ public class TrashketballGame extends JFrame{
 		add(background, BorderLayout.CENTER);
 		
 		JPanel control = new JPanel();
+		JLabel level = new JLabel("Level: ");
+		levelCount = new JLabel(Integer.toString(currentLevelIndex+1));
 		JLabel lifeCount = new JLabel("Lives:");
 		life = new JLabel(Integer.toString(getLifeCounter()));
 		life.setEnabled(false);
@@ -228,7 +248,8 @@ public class TrashketballGame extends JFrame{
 			
 		});
 		
-		
+		control.add(level);
+		control.add(levelCount);
 		control.add(lifeCount);
 		control.add(life);
 		control.add(sliderLabel);
@@ -247,6 +268,11 @@ public class TrashketballGame extends JFrame{
 		game.setSize(700, 700);
 		game.setVisible(true);
 		game.getBackgroundPanel().drawCan(game.getBackgroundPanel().getGraphics(), game);
+		JFrame frame = new JFrame();
+		JOptionPane.showMessageDialog(frame, "You are a student in a school for gifted children. You happen to be able to move objects with your mind. \n "
+											+ "Unfortunately you can only move objects by thinking of an angle at which to throw them. \n "
+											+ "Select the angle above using the slider, but be careful! You only have 4 tries before your teacher catches \n"
+											+ " you (you know this because you can also see the future).");
 		game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	public void setEnteredAngle(int enteredAngle) {

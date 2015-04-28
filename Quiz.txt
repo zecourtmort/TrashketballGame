@@ -22,9 +22,3 @@ B 45 degrees
 C 60 degrees
 D 90 degrees
 C
-Q If two lines are parallel, it means they:
-A Don't ever intersect.
-B Intersect at a 90 degree angle.
-C Intersect at a 45 degree angle.
-D Intersect multiple times.
-A

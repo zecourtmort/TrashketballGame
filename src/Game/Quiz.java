@@ -69,18 +69,18 @@ public class Quiz extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					boolean check = checkSolution(group.getSelection().getActionCommand());
-					System.out.println(group.getSelection().toString());
+				//	System.out.println(group.getSelection().toString());
 					if (check){
 						game.addLife();
 						JFrame frame = new JFrame();
 						JOptionPane.showMessageDialog(frame, "You are correct!");
-						quizPanel.setVisible(false);
+						quizPanel.dispose();
 					}
 					else{
 						game.subLife();
 						JFrame frame = new JFrame();
 						JOptionPane.showMessageDialog(frame, "You are incorrect!");
-						quizPanel.setVisible(false);
+						quizPanel.dispose();
 					}
 					
 					game.setEnabled(true);

@@ -17,6 +17,7 @@ private Image background1;
 private Image background2;
 private TrashketballGame game;
 private Point p = new Point(0, 0);
+
 	public BackgroundPanel(TrashketballGame game){
 		MediaTracker tracker = new MediaTracker(this);
 		URL url = getClass().getResource("/Files/Background1.png");
@@ -41,16 +42,16 @@ private Point p = new Point(0, 0);
 		Level current = game.getCurrentLevel();
 		g.setColor(Color.LIGHT_GRAY);
 		//Rectangle trashCan = new Rectangle(current.getTrashHeight(), current.getTrashDistance(), 100, 100);
-		g.fillRect(current.getTrashDistance()*  20 + 150, current.getTrashHeight() * 20 + 350, 100, 100);
+		g.fillRect(current.getTrashDistance()*  20 + 80, -current.getTrashHeight() * 20 + 460, 50, 100);
 		
 		g.setColor(Color.BLACK);
 		//Rectangle trashCan = new Rectangle(current.getTrashHeight(), current.getTrashDistance(), 100, 100);
-		g.drawRect(current.getTrashDistance() * 20 + 150, current.getTrashHeight() * 20 + 350, 100, 100);
+		g.drawRect(current.getTrashDistance() * 20 + 80, -current.getTrashHeight() * 20 + 460, 50, 100);
 		game.repaint();
 	}
 	
 	public void drawPoint(Graphics g, Point p) {
 		g.setColor(Color.BLUE);
-		g.fillOval((int) (p.getX() * 20 + 150), (int) (p.getY() * 20 + 400), 40, 40);
+		g.fillOval((int) (p.getX() * 20 + 100), (int) (p.getY() * 20 + 430), 10, 10);
 	}
 }
