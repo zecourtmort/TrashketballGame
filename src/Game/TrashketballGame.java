@@ -1,6 +1,9 @@
 package Game;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.Timer;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -31,6 +36,10 @@ public class TrashketballGame extends JFrame{
 	private int lifeCounter = 3;
 	private JLabel life;
 	private int currentLevelIndex;
+	private BackgroundPanel background;
+	private int pointIndex = 0;
+	private Timer timer;
+	private boolean animationFinished = false;
 	
 	public TrashketballGame(String configFileName, String quizFile) throws FileNotFoundException{
 		this.configFileName = configFileName;
@@ -39,6 +48,7 @@ public class TrashketballGame extends JFrame{
 		currentLevelIndex = 0;
 		currentLevel = levels.get(currentLevelIndex);
 		currentSolution = Physics.calcTarget(currentLevel);
+		//drawCan(getGraphics(), this);
 	}
 	
 	public void loadConfigFiles() throws FileNotFoundException{
@@ -77,30 +87,81 @@ public class TrashketballGame extends JFrame{
 		currentLevel = level;
 	}
 	
-	public boolean throwBall(int angle) {
-		Physics.calcPoints(currentLevel, angle);
+	private boolean animationHelper(Point p) {
+		background.setPoint(p);
+
 		
-		List<Point> points = Physics.getPoints();
-		
-		//TO-DO use the points
-		boolean success = checkSolution(angle);
-		
-		if (success) {
-			nextLevel();
-			
-			//TO DO: draw new trashcan
+		return false;	
+	}
 	
-			return true;
-		}
-		else {
-			subLife();
-			
-			if (lifeCounter == 0) {
-				//TO-DO implement a punishment for running out of lives
+	private void startTimer() {
+		Physics.calcPoints(currentLevel, enteredAngle);
+		List<Point> points = Physics.getPoints();
+
+		TrashketballGame game = this;
+		timer = new Timer(100, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				repaint();
+				
+				animationFinished = false;
+
+				setEnabled(false);
+				if (pointIndex < points.size()) {
+					animationHelper(points.get(pointIndex));
+					//System.out.println(points.toString());
+					
+				}
+				
+				pointIndex++;
+				
+				if (pointIndex == points.size()) {
+					System.out.println(pointIndex);
+					timer.stop();
+					
+					setEnabled(true);
+					animationFinished = true;
+					
+					//TO-DO use the points
+					boolean success = checkSolution(enteredAngle);
+					System.out.println(currentSolution);
+					if (success && lifeCounter > 0) {
+						
+						System.out.println("Here");
+						
+						if (currentLevelIndex != 0 && currentLevelIndex % 2 == 0) {
+							Quiz q = quizzes.get(currentLevelIndex - 2);
+							q.drawQuiz(game);
+							
+						}
+						
+						life.setText(Integer.toString(lifeCounter));	
+						nextLevel();
+						background.setPoint(new Point(0, 0));
+						pointIndex = 0;
+					}
+					else if (!success && lifeCounter > 0) {
+						subLife();
+						background.setPoint(new Point(0, 0));
+						pointIndex = 0;
+					}
+					
+				}
 			}
 			
-			return false;
-		}
+		});
+		
+		timer.start();
+	}
+	
+	public boolean throwBall(int angle) {
+		startTimer();
+		List<Point> points = Physics.getPoints();
+
+		
+		return false;
+
 	}
 	
 	private void nextLevel() {
@@ -113,8 +174,13 @@ public class TrashketballGame extends JFrame{
 		return lifeCounter;
 	}
 	
+	public BackgroundPanel getBackgroundPanel() {
+		return background;
+	}
+	
 	public void addComponents() {
-		BackgroundPanel background = new BackgroundPanel();
+		background = new BackgroundPanel(this);
+		
 		setLayout(new BorderLayout());
 		add(background, BorderLayout.CENTER);
 		
@@ -131,7 +197,10 @@ public class TrashketballGame extends JFrame{
 		
 		angleField.setEnabled(false);
 		angleField.setText(Integer.toString(angle.getValue()));
-
+		angle.setMajorTickSpacing(10);
+		angle.setMinorTickSpacing(1);
+		angle.setPaintTicks(true);
+		angle.setPaintLabels(true);
 		
 		angle.addChangeListener(new ChangeListener() {
 
@@ -177,7 +246,8 @@ public class TrashketballGame extends JFrame{
 		game.addComponents();
 		game.setSize(700, 700);
 		game.setVisible(true);
-		
+		game.getBackgroundPanel().drawCan(game.getBackgroundPanel().getGraphics(), game);
+		game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	public void setEnteredAngle(int enteredAngle) {
 		this.enteredAngle = enteredAngle;
@@ -196,4 +266,5 @@ public class TrashketballGame extends JFrame{
 		lifeCounter--;
 		life.setText(Integer.toString(lifeCounter));
 	}
+	
 }

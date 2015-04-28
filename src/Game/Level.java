@@ -1,5 +1,9 @@
 package Game;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
 public class Level {
 	private int solutionAngle;
 	private int trashHeight;
@@ -14,10 +18,6 @@ public class Level {
 	
 	public Level() {
 		// TODO Auto-generated constructor stub
-	}
-
-	public void drawBoard(){
-		
 	}
 
 	public int getSolutionAngle() {

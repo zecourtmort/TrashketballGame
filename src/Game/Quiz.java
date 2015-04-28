@@ -38,6 +38,7 @@ public class Quiz extends JPanel{
 		return (answer.equals(solution));
 	}
 	public void drawQuiz(TrashketballGame game){
+		game.setEnabled(false);
 		JFrame quizPanel = new JFrame();
 		quizPanel.setSize(200,200);
 		quizPanel.setVisible(true);
@@ -81,6 +82,8 @@ public class Quiz extends JPanel{
 						JOptionPane.showMessageDialog(frame, "You are incorrect!");
 						quizPanel.setVisible(false);
 					}
+					
+					game.setEnabled(true);
 			}
 		
 		});

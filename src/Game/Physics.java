@@ -31,7 +31,9 @@ public class Physics {
 		double height = level.getTrashHeight();
 		points = new ArrayList<Point>();
 		for ( int i = 0; i < distance+1; i++){
-		double y = (distance*Math.tan(angle))-((GRAVITY*distance*distance)/(2*((VELOCITY*Math.cos(angle))*(VELOCITY*Math.cos(angle)))));
+		double y = (i*Math.tan(Math.toRadians(angle)))-((GRAVITY*i*i)/(2*((VELOCITY*Math.cos(Math.toRadians(angle)))*(VELOCITY*Math.cos(Math.toRadians(angle))))));
+		//System.out.println(y);
+		y *= (-1);
 		Point temp = new Point (i,(int) y);
 		points.add(temp);
 		}
